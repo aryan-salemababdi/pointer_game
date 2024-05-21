@@ -1,6 +1,7 @@
 import { Box, Button, Card, Typography } from "@mui/material";
 import { FC } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { increse } from "../../../stores/slices/pointsSlice/pointsSlice";
 
 interface IResultPage {
   setMenuPage: (status: string, menu: boolean) => void;
@@ -10,6 +11,7 @@ interface IResultPage {
 const ResultPage: FC<IResultPage> = ({ setMenuPage }) => {
 
   const state = useSelector((store: { pointer: { point: number } }) => store.pointer.point);
+  const dispatch = useDispatch();
 
   return (
     <>
@@ -31,7 +33,12 @@ const ResultPage: FC<IResultPage> = ({ setMenuPage }) => {
             </Box>
           </Box>
           <Box display="flex" justifyContent="center">
-            <Button variant="contained" color="success" onClick={() => setMenuPage("", false)}>
+            <Button variant="contained" color="success"
+              onClick={() => {
+                dispatch(increse(-state))
+                setMenuPage("", false);
+              }}
+            >
               برگشت به منو
             </Button>
           </Box>
