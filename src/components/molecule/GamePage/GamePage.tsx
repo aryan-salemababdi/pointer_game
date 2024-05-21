@@ -1,17 +1,19 @@
 import { Box, Button, Typography } from "@mui/material";
 import { FC, useEffect, useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
+import { increse } from "../../../stores/slices/pointsSlice/pointsSlice";
 import { keyframes } from '@emotion/react';
 
 // icons
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
+// components
+import Timer from "../../Atom/Timer/Timer";
+
 // images
 import flower5 from "../../../assets/flower.png";
 import flower6 from "../../../assets/flower-with-rounded-petals.png";
 import flower4 from "../../../assets/nature.png";
-import { increse } from "../../../stores/slices/pointsSlice/pointsSlice";
-import Timer from "../../Atom/Timer/Timer";
 
 interface IGamePage {
     role: string;
@@ -49,7 +51,7 @@ const GamePage: FC<IGamePage> = ({ setBackPage, result, role }) => {
     const [currentItem, setCurrentItem] = useState<Flower | null>(null);
     const [removedItems, setRemovedItems] = useState<number[]>([]);
     const [positionX, setPositionX] = useState<number>(0);
-    const [timer, setTimer] = useState<number | null>(null)
+    const [timer, setTimer] = useState<number | null>(null);
     const state = useSelector((store: { pointer: { point: number } }) => store.pointer.point);
     const dispatch = useDispatch();
 
@@ -58,15 +60,12 @@ const GamePage: FC<IGamePage> = ({ setBackPage, result, role }) => {
         const interval = setInterval(() => {
             const randomIndex = Math.floor(Math.random() * items.length);
             setCurrentItem(items[randomIndex]);
-            const randomOffset = Math.floor(Math.random() * 101) - 50;
+            const randomOffset = (Math.random() * 100);
             setPositionX(randomOffset);
         }, 3000);
         return () => clearInterval(interval);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-
-    console.log(timer);
-    
 
     useEffect(() => {
         if (timer === 60) result(true);
@@ -132,7 +131,7 @@ const GamePage: FC<IGamePage> = ({ setBackPage, result, role }) => {
                         <Box
                             key={currentItem.id}
                             position="absolute"
-                            left={`calc(50% + ${positionX}px)`}
+                            left={`calc(${positionX}%)`}
                             sx={{
                                 transform: 'translateX(-50%)',
                                 animation: `${fallingAnimation} 5s linear`
