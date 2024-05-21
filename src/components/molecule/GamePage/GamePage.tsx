@@ -69,7 +69,7 @@ const GamePage: FC<IGamePage> = ({ setBackPage, result, role }) => {
     
 
     useEffect(() => {
-        if (timer === 10) result(true);
+        if (timer === 60) result(true);
     })
 
     const handleItemClick = (id: number): void => {
