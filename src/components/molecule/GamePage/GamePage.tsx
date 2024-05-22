@@ -70,7 +70,7 @@ const GamePage: FC<IGamePage> = ({ setBackPage, result, role }) => {
 
     useEffect(() => {
         if (timer === 60) result(true);
-    })
+    });
 
     const handleItemClick = (id: number): void => {
         if (role === "monocot") {
