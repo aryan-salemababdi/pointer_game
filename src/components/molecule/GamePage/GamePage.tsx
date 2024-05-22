@@ -27,80 +27,78 @@ const GamePage: FC<IGamePage> = ({ setBackPage, result, role }) => {
         id: number;
         petal: number;
         img: string;
+        positionX: number;
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    const items: Flower[] = [
+    const items: Omit<Flower, "id" | "positionX">[] = [
         {
-            id: 0,
             petal: 5,
             img: flower5
         },
         {
-            id: 1,
             petal: 6,
             img: flower6
         },
         {
-            id: 2,
             petal: 4,
             img: flower4
         }
     ];
 
-    const [currentItem, setCurrentItem] = useState<Flower | null>(null);
+    const [currentItems, setCurrentItems] = useState<Flower[]>([]);
     const [removedItems, setRemovedItems] = useState<number[]>([]);
-    const [positionX, setPositionX] = useState<number>(0);
     const [timer, setTimer] = useState<number | null>(null);
     const state = useSelector((store: { pointer: { point: number } }) => store.pointer.point);
     const dispatch = useDispatch();
 
-
     useEffect(() => {
         const interval = setInterval(() => {
             const randomIndex = Math.floor(Math.random() * items.length);
-            setCurrentItem(items[randomIndex]);
-            setRemovedItems([]);
-            const randomOffset = (Math.random() * 90);
-            setPositionX(randomOffset);
-        }, 3500);
+            const newItem = {
+                ...items[randomIndex],
+                id: Date.now(),
+                positionX: Math.random() * 90
+            };
+            setCurrentItems(prevItems => [...prevItems, newItem]);
+
+            setTimeout(() => {
+                setCurrentItems(prevItems => prevItems.filter(item => item.id !== newItem.id));
+            }, 4000);
+        }, 1000);
+
         return () => clearInterval(interval);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [items]);
 
     useEffect(() => {
         if (timer === 60) result(true);
-    });
+    }, [timer, result]);
 
     const handleItemClick = (id: number): void => {
-        if (role === "monocot") {
-            if (currentItem !== null) {
-                if (currentItem.petal % 5 === 0 || currentItem.petal % 6 === 0) {
-                    dispatch(increse(1))
+        const clickedItem = currentItems.find(item => item.id === id);
+        if (clickedItem) {
+            if (role === "monocot") {
+                if (clickedItem.petal % 5 === 0 || clickedItem.petal % 6 === 0) {
+                    dispatch(increse(1));
+                }
+            } else {
+                if (clickedItem.petal % 2 === 0) {
+                    dispatch(increse(1));
                 }
             }
+            setRemovedItems([...removedItems, id]);
+            setCurrentItems(currentItems.filter(item => item.id !== id));
         }
-        else {
-            if (currentItem !== null) {
-                if (currentItem.petal % 2 === 0) {
-                    dispatch(increse(1))
-                }
-            }
-        }
-        setRemovedItems([...removedItems, id]);
-        setCurrentItem(null);
     };
-
 
     const fallingAnimation = keyframes`
         0% {
             top: 0;
         }
         100% {
-            top: 100vh;
+            top: 90vh;
         }
     `;
-
 
     return (
         <>
@@ -109,8 +107,8 @@ const GamePage: FC<IGamePage> = ({ setBackPage, result, role }) => {
                     <Button
                         variant="contained"
                         onClick={() => {
-                            setBackPage("")
-                            dispatch(increse(-state))
+                            setBackPage("");
+                            dispatch(increse(-state));
                         }}
                         color="error"
                     >
@@ -125,26 +123,28 @@ const GamePage: FC<IGamePage> = ({ setBackPage, result, role }) => {
                         </Typography>
                         <Box mt={10}>
                             <Timer getTime={(counter) => {
-                                setTimer(counter)
+                                setTimer(counter);
                             }} />
                         </Box>
                     </Box>
                 </Box>
                 <Box width="90%" height="100vh" position="relative">
-                    {currentItem && !removedItems.includes(currentItem.id) && (
-                        <Box
-                            key={currentItem.id}
-                            position="absolute"
-                            left={`calc(${positionX}%)`}
-                            sx={{
-                                transform: 'translateX(-50%)',
-                                animation: `${fallingAnimation} 5s linear`
-                            }}
-                            onClick={() => handleItemClick(currentItem.id)}
-                        >
-                            <img src={currentItem.img} alt={`Flower with ${currentItem.petal} petals`} width={50} />
-                        </Box>
-                    )}
+                    {currentItems.map(item => (
+                        !removedItems.includes(item.id) && (
+                            <Box
+                                key={item.id}
+                                position="absolute"
+                                left={`calc(${item.positionX}%)`}
+                                sx={{
+                                    transform: 'translateX(-50%)',
+                                    animation: `${fallingAnimation} 5s linear`
+                                }}
+                                onClick={() => handleItemClick(item.id)}
+                            >
+                                <img src={item.img} alt={`Flower with ${item.petal} petals`} width={50} />
+                            </Box>
+                        )
+                    ))}
                 </Box>
             </Box>
         </>

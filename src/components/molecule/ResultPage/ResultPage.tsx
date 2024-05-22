@@ -39,7 +39,7 @@ const ResultPage: FC<IResultPage> = ({ setMenuPage }) => {
                 setMenuPage("", false);
               }}
             >
-              برگشت به منو
+              Back to menu
             </Button>
           </Box>
         </Card>
