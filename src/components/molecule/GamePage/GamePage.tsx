@@ -60,9 +60,10 @@ const GamePage: FC<IGamePage> = ({ setBackPage, result, role }) => {
         const interval = setInterval(() => {
             const randomIndex = Math.floor(Math.random() * items.length);
             setCurrentItem(items[randomIndex]);
-            const randomOffset = (Math.random() * 100);
+            setRemovedItems([]);
+            const randomOffset = (Math.random() * 90);
             setPositionX(randomOffset);
-        }, 3000);
+        }, 3500);
         return () => clearInterval(interval);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
@@ -107,7 +108,10 @@ const GamePage: FC<IGamePage> = ({ setBackPage, result, role }) => {
                 <Box m={3} height="100vh" width="10%">
                     <Button
                         variant="contained"
-                        onClick={() => setBackPage("")}
+                        onClick={() => {
+                            setBackPage("")
+                            dispatch(increse(-state))
+                        }}
                         color="error"
                     >
                         <ArrowBackIcon />
