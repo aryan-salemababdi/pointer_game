@@ -32,18 +32,9 @@ const GamePage: FC<IGamePage> = ({ setBackPage, result, role }) => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const items: Omit<Flower, "id" | "positionX">[] = [
-        {
-            petal: 5,
-            img: flower5
-        },
-        {
-            petal: 6,
-            img: flower6
-        },
-        {
-            petal: 4,
-            img: flower4
-        }
+        { petal: 5, img: flower5 },
+        { petal: 6, img: flower6 },
+        { petal: 4, img: flower4 }
     ];
 
     const [currentItems, setCurrentItems] = useState<Flower[]>([]);
