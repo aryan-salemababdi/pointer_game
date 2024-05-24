@@ -70,7 +70,6 @@ const GamePage: FC<IGamePage> = ({ setBackPage, result, role }) => {
                     tops.forEach(({ id, top }) => {
                         if (top && top >= containerHeight) {
                             itemRef.current[id].style.display = "none";
-                            itemRef.current[id].style.display = "none"
                         }
                     });
                 }
