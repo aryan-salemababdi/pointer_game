@@ -49,7 +49,7 @@ const GamePage: FC<IGamePage> = ({ setBackPage, result, role }) => {
     useEffect(() => {
         const interval = setInterval(() => {
             const randomIndex = Math.floor(Math.random() * items.length);
-            const positions = [10, 20, 30, 40, 50, 60, 70, 80, 90];
+            const positions = [20, 30, 40, 50, 60, 70, 75];
             const randomPositionIndex = Math.floor(Math.random() * positions.length);
             const newItem = {
                 ...items[randomIndex],
@@ -57,35 +57,29 @@ const GamePage: FC<IGamePage> = ({ setBackPage, result, role }) => {
                 positionX: positions[randomPositionIndex]
             };
             setCurrentItems(prevItems => [...prevItems, newItem]);
-            setTimeout(() => {
-                const tops = currentItems
-                    .filter(item => itemRef.current[item.id])
-                    .map(item => ({
-                        id: item.id,
-                        top: itemRef.current[item.id]?.getBoundingClientRect().top
-                    }));
-
-                if (ref.current && tops) {
-                    const containerHeight = ref.current.clientHeight;
-                    tops.forEach(({ id, top }) => {
-                        if (top && top >= containerHeight) {
-                            itemRef.current[id].style.display = "none";
-                        }
-                    });
-                }
-            }, 0);
         }, 1000);
+        const tops = currentItems
+            .filter(item => itemRef.current[item.id])
+            .map(item => ({
+                id: item.id,
+                top: itemRef.current[item.id]?.getBoundingClientRect().top
+            }));
 
+        if (ref.current && tops) {
+            const containerHeight = ref.current.clientHeight;
+            tops.forEach(({ id, top }) => {
+                if (top && top > containerHeight) {
+                    itemRef.current[id].style.display = "none";
+                }
+            });
+        }
         return () => clearInterval(interval);
-    }, [items, currentItems]);
+    },);
 
 
     useEffect(() => {
         if (timer === 60) result(true);
     }, [timer, result]);
-
-
-
 
 
     const handleItemClick = (id: number): void => {
@@ -109,15 +103,21 @@ const GamePage: FC<IGamePage> = ({ setBackPage, result, role }) => {
     const fallingAnimation = keyframes`
         0% {
             top: 0;
+            opacity: 0;
+        }
+        1% {
+            opacity: 1;
         }
         100% {
             top: 100vh;
+            opacity: 1;
         }
     `;
 
+
     return (
-        <div style={{ overflow: "hidden" }}>
-            <Box width="100%" height="100%" display="flex">
+        <>
+            <Box width="100%" height="100%" display="flex" overflow="hidden">
                 <Box m={3} height="90vh" width="10%">
                     <Button
                         variant="contained"
@@ -150,19 +150,20 @@ const GamePage: FC<IGamePage> = ({ setBackPage, result, role }) => {
                                 key={item.id}
                                 ref={el => itemRef.current[item.id] = el}
                                 position="absolute"
+
                                 left={`calc(${item.positionX}%)`}
                                 sx={{
-                                    animation: `${fallingAnimation} 10s linear`
+                                    animation: `${fallingAnimation} 10s linear`,
                                 }}
                                 onClick={() => handleItemClick(item.id)}
                             >
-                                <img src={item.img} alt={`Flower with ${item.petal} petals`} width={50} />
+                                <img src={item.img} alt={`Flower with ${item.petal} petals`} width={45} />
                             </Box>
                         )
                     ))}
                 </Box>
             </Box>
-        </div>
+        </>
     );
 }
 
