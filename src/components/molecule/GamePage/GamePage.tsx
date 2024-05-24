@@ -103,9 +103,14 @@ const GamePage: FC<IGamePage> = ({ setBackPage, result, role }) => {
     const fallingAnimation = keyframes`
         0% {
             top: 0;
+            opacity: 0;
+        }
+        1% {
+            opacity: 1;
         }
         100% {
             top: 100vh;
+            opacity: 1;
         }
     `;
 
