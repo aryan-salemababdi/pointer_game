@@ -25,7 +25,7 @@ const ResultPage: FC<IResultPage> = ({ setMenuPage }) => {
           <Box display="flex" justifyContent="space-around" m="20px 10px">
             <Box textAlign="center">
               <Typography fontWeight="bold" variant="h5">
-                your total point is:
+                امتیاز کلی شما: 
               </Typography>
               <Typography fontWeight="bold" variant="h6" color="green">
                 {state}
@@ -39,7 +39,7 @@ const ResultPage: FC<IResultPage> = ({ setMenuPage }) => {
                 setMenuPage("", false);
               }}
             >
-              Back to menu
+            برگشت به منو
             </Button>
           </Box>
         </Card>

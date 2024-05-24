@@ -1,5 +1,5 @@
+import { FC, useEffect, useState, useRef } from "react";
 import { Box, Button, Typography } from "@mui/material";
-import { FC, useEffect, useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { increse } from "../../../stores/slices/pointsSlice/pointsSlice";
 import { keyframes } from '@emotion/react';
@@ -37,6 +37,9 @@ const GamePage: FC<IGamePage> = ({ setBackPage, result, role }) => {
         { petal: 4, img: flower4 }
     ];
 
+    const ref = useRef<HTMLDivElement>(null);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const itemRef = useRef<any>({});
     const [currentItems, setCurrentItems] = useState<Flower[]>([]);
     const [removedItems, setRemovedItems] = useState<number[]>([]);
     const [timer, setTimer] = useState<number | null>(null);
@@ -46,24 +49,45 @@ const GamePage: FC<IGamePage> = ({ setBackPage, result, role }) => {
     useEffect(() => {
         const interval = setInterval(() => {
             const randomIndex = Math.floor(Math.random() * items.length);
+            const positions = [10, 20, 30, 40, 50, 60, 70, 80, 90];
+            const randomPositionIndex = Math.floor(Math.random() * positions.length);
             const newItem = {
                 ...items[randomIndex],
                 id: Date.now(),
-                positionX: Math.random() * 90
+                positionX: positions[randomPositionIndex]
             };
             setCurrentItems(prevItems => [...prevItems, newItem]);
-
             setTimeout(() => {
-                setCurrentItems(prevItems => prevItems.filter(item => item.id !== newItem.id));
-            }, 4000);
+                const tops = currentItems
+                    .filter(item => itemRef.current[item.id])
+                    .map(item => ({
+                        id: item.id,
+                        top: itemRef.current[item.id]?.getBoundingClientRect().top
+                    }));
+
+                if (ref.current && tops) {
+                    const containerHeight = ref.current.clientHeight;
+                    tops.forEach(({ id, top }) => {
+                        if (top && top >= containerHeight) {
+                            itemRef.current[id].style.display = "none";
+                            itemRef.current[id].style.display = "none"
+                        }
+                    });
+                }
+            }, 0);
         }, 1000);
 
         return () => clearInterval(interval);
-    }, [items]);
+    }, [items, currentItems]);
+
 
     useEffect(() => {
         if (timer === 60) result(true);
     }, [timer, result]);
+
+
+
+
 
     const handleItemClick = (id: number): void => {
         const clickedItem = currentItems.find(item => item.id === id);
@@ -82,19 +106,20 @@ const GamePage: FC<IGamePage> = ({ setBackPage, result, role }) => {
         }
     };
 
+
     const fallingAnimation = keyframes`
         0% {
             top: 0;
         }
         100% {
-            top: 90vh;
+            top: 100vh;
         }
     `;
 
     return (
-        <>
-            <Box width="100%" display="flex">
-                <Box m={3} height="100vh" width="10%">
+        <div style={{ overflow: "hidden" }}>
+            <Box width="100%" height="100%" display="flex">
+                <Box m={3} height="90vh" width="10%">
                     <Button
                         variant="contained"
                         onClick={() => {
@@ -107,7 +132,7 @@ const GamePage: FC<IGamePage> = ({ setBackPage, result, role }) => {
                     </Button>
                     <Box textAlign="center" my={20}>
                         <Typography fontWeight="bold" variant="h6">
-                            Total points:
+                            امتیاز شما :
                         </Typography>
                         <Typography fontWeight="bold" color="green">
                             {state}
@@ -119,16 +144,16 @@ const GamePage: FC<IGamePage> = ({ setBackPage, result, role }) => {
                         </Box>
                     </Box>
                 </Box>
-                <Box width="90%" height="100vh" position="relative">
+                <Box width="90%" height="90vh" position="relative" ref={ref}>
                     {currentItems.map(item => (
                         !removedItems.includes(item.id) && (
                             <Box
                                 key={item.id}
+                                ref={el => itemRef.current[item.id] = el}
                                 position="absolute"
                                 left={`calc(${item.positionX}%)`}
                                 sx={{
-                                    transform: 'translateX(-50%)',
-                                    animation: `${fallingAnimation} 5s linear`
+                                    animation: `${fallingAnimation} 10s linear`
                                 }}
                                 onClick={() => handleItemClick(item.id)}
                             >
@@ -138,7 +163,7 @@ const GamePage: FC<IGamePage> = ({ setBackPage, result, role }) => {
                     ))}
                 </Box>
             </Box>
-        </>
+        </div>
     );
 }
 

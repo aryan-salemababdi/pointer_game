@@ -24,18 +24,18 @@ const StartMenu: FC<IStartMenu> = ({ setSelected }) => {
         <Card sx={{ width: "350px", maxWidth: "350px", p: "20px" }}>
           <Box textAlign="center">
             <Typography fontWeight="bold" variant="h6">
-              welcome to the Petal Picker
+           به بازی تعقیب گلبرگ خوش آمدید
             </Typography>
           </Box>
           <Box display="flex" justifyContent="space-around" m="20px 10px">
             <Box>
               <Button variant="contained" color="success" onClick={() => setSelected("monocot")}>
-                monocot
+                تک لپه
               </Button>
             </Box>
             <Box>
               <Button variant="contained" color="success" onClick={() => setSelected("dicot")} >
-                dicot
+               دو لپه
               </Button>
             </Box>
           </Box>

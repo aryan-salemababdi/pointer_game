@@ -23,7 +23,7 @@ const Timer: FC<ITimeer> = ({ getTime }) => {
     return (
         <>
             <Typography fontWeight="bold" variant="h6">
-                Time:
+                زمان:
             </Typography>
             <Typography fontWeight="bold" variant="h6" color="green">
                 {counter}
