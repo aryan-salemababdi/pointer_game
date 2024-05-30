@@ -11,9 +11,12 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import Timer from "../../Atom/Timer/Timer";
 
 // images
-import flower5 from "../../../assets/flower.png";
-import flower6 from "../../../assets/flower-with-rounded-petals.png";
-import flower4 from "../../../assets/nature.png";
+import flower3 from "../../../assets/Asset 1@4x.png";
+import flower4 from "../../../assets/Asset 4@4x.png";
+import flower5 from "../../../assets/Asset 5@4x.png";
+import flower6 from "../../../assets/Asset 6@4x.png";
+import flower9 from "../../../assets/Asset 8@4x.png";
+import flower10 from "../../../assets/Asset 9@4x.png";
 
 interface IGamePage {
     role: string;
@@ -32,9 +35,13 @@ const GamePage: FC<IGamePage> = ({ setBackPage, result, role }) => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const items: Omit<Flower, "id" | "positionX">[] = [
+        { petal: 3, img: flower3 },
+        { petal: 4, img: flower4 },
+        { petal: 5, img: flower5 },
         { petal: 5, img: flower5 },
         { petal: 6, img: flower6 },
-        { petal: 4, img: flower4 }
+        { petal: 9, img: flower9 },
+        { petal: 10, img: flower10 }
     ];
 
     const ref = useRef<HTMLDivElement>(null);
@@ -157,7 +164,7 @@ const GamePage: FC<IGamePage> = ({ setBackPage, result, role }) => {
                                 }}
                                 onClick={() => handleItemClick(item.id)}
                             >
-                                <img src={item.img} alt={`Flower with ${item.petal} petals`} width={45} />
+                                <img src={item.img} alt={`Flower with ${item.petal} petals`} width={50} loading="lazy" />
                             </Box>
                         )
                     ))}
