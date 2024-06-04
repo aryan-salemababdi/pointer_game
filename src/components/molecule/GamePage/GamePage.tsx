@@ -17,6 +17,7 @@ import flower5 from "../../../assets/Asset 5@4x.png";
 import flower6 from "../../../assets/Asset 6@4x.png";
 import flower9 from "../../../assets/Asset 8@4x.png";
 import flower10 from "../../../assets/Asset 9@4x.png";
+import GamePageBg from '../../../assets/IMG_20240531_005916.jpg';
 
 interface IGamePage {
     role: string;
@@ -123,9 +124,15 @@ const GamePage: FC<IGamePage> = ({ setBackPage, result, role }) => {
 
 
     return (
-        <>
+        <div style={{
+            backgroundImage: `url(${GamePageBg})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
+            height:"100vh"
+        }}>
             <Box width="100%" height="100%" display="flex" overflow="hidden">
-                <Box m={3} height="90vh" width="10%">
+                <Box m={3} height="100vh" width="10%">
                     <Button
                         variant="contained"
                         onClick={() => {
@@ -170,7 +177,7 @@ const GamePage: FC<IGamePage> = ({ setBackPage, result, role }) => {
                     ))}
                 </Box>
             </Box>
-        </>
+        </div>
     );
 }
 

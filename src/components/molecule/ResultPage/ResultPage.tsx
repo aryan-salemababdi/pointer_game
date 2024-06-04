@@ -3,6 +3,11 @@ import { FC } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { increse } from "../../../stores/slices/pointsSlice/pointsSlice";
 
+
+
+import resultBg from "../../../assets/IMG_20240531_005858.jpg";
+
+
 interface IResultPage {
   setMenuPage: (status: string, menu: boolean) => void;
 }
@@ -20,6 +25,13 @@ const ResultPage: FC<IResultPage> = ({ setMenuPage }) => {
         justifyContent="center"
         alignItems="center"
         height="100vh"
+        sx={{
+          backgroundImage: `url(${resultBg})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+          height: "100vh"
+        }}
       >
         <Card sx={{ width: "350px", maxWidth: "350px", p: "20px" }}>
           <Box display="flex" justifyContent="space-around" m="20px 10px">
