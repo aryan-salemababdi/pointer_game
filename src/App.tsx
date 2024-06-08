@@ -9,6 +9,7 @@ function App() {
 
   return (
     <>
+    <Box sx={{m:0 ,p:0, overflow:"hidden"}}>
       {
         gameMode === "" ? (
           <Landing
@@ -35,6 +36,7 @@ function App() {
           />
         )
       }
+      </Box>
     </>
   )
 }
