@@ -11,7 +11,13 @@ function App() {
 
   return (
     <>
-      <Box sx={{ m: 0, p: 0, overflow: "hidden" }}>
+      <Box 
+      sx={{
+        margin:0,
+        padding:0,
+        overflow: "hidden"
+      }}
+      >
         {
           gameMode === "" ? (
             <Landing
