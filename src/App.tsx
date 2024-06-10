@@ -10,13 +10,17 @@ function App() {
   const [resultPage, setResultPage] = useState<boolean>(false);
 
   return (
-    <>
-      <Box 
-      sx={{
-        margin:0,
-        padding:0,
-        overflow: "hidden"
-      }}
+    <div style={{
+      margin: 0,
+      padding: 0,
+      overflow: "hidden"
+    }}>
+      <Box
+        sx={{
+          margin: 0,
+          padding: 0,
+          overflow: "hidden"
+        }}
       >
         {
           gameMode === "" ? (
@@ -45,7 +49,7 @@ function App() {
           )
         }
       </Box>
-    </>
+    </div>
   )
 }
 
