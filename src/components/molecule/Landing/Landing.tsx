@@ -26,7 +26,7 @@ const Landing: FC<ILanding> = ({ selected }) => {
                 backgroundSize: "cover",
                 backgroundPosition: "center",
                 backgroundRepeat: "no-repeat",
-                height: "100vh"
+                height: "100%"
             }}>
                 <StartMenu
                     setSelected={(select) => {
