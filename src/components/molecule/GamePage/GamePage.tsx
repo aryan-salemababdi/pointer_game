@@ -15,6 +15,7 @@ import flower3 from "../../../assets/Asset 1@4x.png";
 import flower4 from "../../../assets/Asset 4@4x.png";
 import flower5 from "../../../assets/Asset 5@4x.png";
 import flower6 from "../../../assets/Asset 6@4x.png";
+import flower8 from "../../../assets/Asset 7@4x.png";
 import flower9 from "../../../assets/Asset 8@4x.png";
 import flower10 from "../../../assets/Asset 9@4x.png";
 import GamePageBg from '../../../assets/IMG_20240531_005916.jpg';
@@ -39,7 +40,7 @@ const GamePage: FC<IGamePage> = ({ setBackPage, result, role }) => {
         { petal: 3, img: flower3 },
         { petal: 4, img: flower4 },
         { petal: 5, img: flower5 },
-        { petal: 5, img: flower5 },
+        { petal: 8, img: flower8 },
         { petal: 6, img: flower6 },
         { petal: 9, img: flower9 },
         { petal: 10, img: flower10 }
@@ -82,7 +83,7 @@ const GamePage: FC<IGamePage> = ({ setBackPage, result, role }) => {
             });
         }
         return () => clearInterval(interval);
-    },);
+    }, []);
 
 
     useEffect(() => {
@@ -93,12 +94,12 @@ const GamePage: FC<IGamePage> = ({ setBackPage, result, role }) => {
     const handleItemClick = (id: number): void => {
         const clickedItem = currentItems.find(item => item.id === id);
         if (clickedItem) {
-            if (role === "monocot") {
-                if (clickedItem.petal % 5 === 0 || clickedItem.petal % 6 === 0) {
+            if (role === "dicot") {
+                if (clickedItem.petal % 5 === 0 || clickedItem.petal % 4 === 0) {
                     dispatch(increse(1));
                 }
             } else {
-                if (clickedItem.petal % 2 === 0) {
+                if (clickedItem.petal % 6 === 0 || clickedItem.petal % 3 === 0) {
                     dispatch(increse(1));
                 }
             }
@@ -129,7 +130,7 @@ const GamePage: FC<IGamePage> = ({ setBackPage, result, role }) => {
             backgroundSize: "cover",
             backgroundPosition: "center",
             backgroundRepeat: "no-repeat",
-            height:"100vh"
+            height: "100vh"
         }}>
             <Box width="100%" height="100%" display="flex" overflow="hidden">
                 <Box m={3} height="100vh" width="10%">
